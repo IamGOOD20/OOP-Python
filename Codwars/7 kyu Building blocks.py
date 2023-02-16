@@ -5,7 +5,6 @@ class Block:
             self.get_length = param[1]
             self.get_height = param[2]
             self.get_volume = self.get_width * self.get_width * self.get_height
-
             self.get_surface_area = 2 * (self.get_width * self.get_length +
                                           self.get_length * self.get_height + self.get_width * self.get_height)
 
