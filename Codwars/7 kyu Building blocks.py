@@ -18,6 +18,7 @@ class Block:
 
     #b.get_surface_area() -> return 88
 
+
 block1 = Block([2, 4, 6])
 print(block1.get_surface_area)
 print(block1.get_length)
