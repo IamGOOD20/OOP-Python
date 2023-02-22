@@ -23,5 +23,5 @@ class Vector:
 
 v = Vector(10, 20)
 print(v.get_cords())
-print(Vector.s2(5, 6))c
+print(Vector.s2(5, 6))
 
