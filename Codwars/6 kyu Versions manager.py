@@ -22,48 +22,60 @@ release() - return a string in the format "{MAJOR}.{MINOR}.{PATCH}"
 May the binary force be with you!
 '''
 
+
 class VersionManager:
+    archive = []
 
     @classmethod
-    def validate(cls, number):
-        if 10 > number >= 0:
-            return True
-        else:
-            raise TypeError('"Error occured while parsing version!" should be thrown')
+    def len_version(cls, arg):
+        if len(arg) == 1:
+            arg += '.0.0'
+        elif len(arg) == 3:
+            arg += '.0'
+        elif len(arg) > 5:
+            arg = arg[:5]
+        elif arg == '':
+            arg = '0.0.1'
+        return arg
 
-    def __init__(self, MAJOR=0, MINOR=0, PATCH=1, *arg):
-        if self.validate(MAJOR) and self.validate(MINOR) and self.validate(PATCH):
-            self.MAJOR = MAJOR
-            self.MINOR = MINOR
-            self.PATCH = PATCH
+    def __init__(self, version='0.0.1', args='First commit'):
+        version = self.len_version(version)
+        for i in version:
+            if i not in '1.2.3.4.5.6.7.8.9.0.':
+                raise TypeError("Error occured while parsing version!")
+
+        version = list(map(int, version.split('.')))
+        self.MAJOR = version[0]
+        self.MINOR = version[1]
+        self.PATCH = version[2]
+        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
 
     def major(self):
         self.MAJOR += 1
         self.MINOR = 0
         self.PATCH = 0
+        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
+        return self
 
     def minor(self):
         self.MINOR += 1
         self.PATCH = 0
+        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
+        return self
 
     def patch(self):
         self.PATCH += 1
+        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
+        return self
 
-# rollback() - вернуть MAJOR, MINOR и PATCH к их значениям до
-# предыдущего основного/второстепенного/патч-вызова или создать исключение
-# с сообщением "Cannot rollback!" если нет версии для отката.
-# Должны быть возможны множественные вызовы rollback() и восстановление истории версий.
-
-    #def rollback(self):
-        #if self.MAJOR:
-
-        #else:
-            #if self.MAJOR == 0 and self.MINOR == 0 and self.PATCH == 1:
-                #return 'Cannot rollback!'
+    def rollback(self):
+        if len(self.archive) == 0:
+            return 'Cannot rollback!'
+        else:
+            self.archive.pop()
+            return self
 
     def release(self):
-       return f'{self.MAJOR}.{self.MINOR}.{self.PATCH}'
+        curent_version = self.archive.pop()
+        return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
 
-v = VersionManager(1, 0, 0, 'd')
-v.major()
-print(v.release())

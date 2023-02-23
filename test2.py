@@ -1,11 +1,16 @@
+#a = '1.2.3.b'
 
+#print(len(a))
 
-def version(patch, *args):
-    num = '1.2.3.4.5.6.7.8.9.0.'
-    if patch not in num:
-        raise TypeError ('Mistake')
-    else:
-        return list(map(int, patch.split('.')))
+def len_version(arg):
+    if len(arg) == 1:
+        arg += '.0.0'
+    elif len(arg) == 3:
+        arg += '.0'
+    elif len(arg) > 5:
+        arg = arg[:5]
+    return arg
 
-
-print(version('we 2.3', 'patch 1'))
+print(len_version('1'))
+print(len_version('1.2'))
+print(len_version('3.3.3.b.23ewwewe'))
