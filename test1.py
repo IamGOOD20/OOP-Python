@@ -1,38 +1,21 @@
-'''
-    @classmethod
-    def validate(cls, number):
-        #if 10 > number >= 0 and isinstance(number, int): #and type(number) == 'int':
-        if type(number) == int:
-            return True
-        else:
-            raise TypeError('Error occured while parsing version!')
-
-#if self.validate(MAJOR) and self.validate(MINOR) and self.validate(PATCH):
-'''
 
 
 class VersionManager:
     archive = []
 
     @classmethod
-    def len_version(cls, arg):
-        if len(arg) == 1:
-            arg += '.0.0'
-        elif len(arg) == 3:
-            arg += '.0'
-        elif len(arg) > 5:
-            arg = arg[:5]
-        elif arg == '':
-            arg = '0.0.1'
-        return arg
+    def correct(cls, version='0.0.1', arg2='bla bla bla'):
+        if version == '':
+            version = '0.0.1'
+        version = version.split('.') + ['0', '0']
+        version = version[:3]
+        for i in version:
+            if i not in '1234567890.':
+                raise TypeError("Error occured while parsing version!")
+        return list(map(int, version))
 
     def __init__(self, version='0.0.1', args='First commit'):
-        version = self.len_version(version)
-        for i in version:
-            if i not in '1.2.3.4.5.6.7.8.9.0.':
-                raise TypeError("Error occured while parsing version!")
-
-        version = list(map(int, version.split('.')))
+        version = self.correct(version)
         self.MAJOR = version[0]
         self.MINOR = version[1]
         self.PATCH = version[2]
@@ -68,13 +51,8 @@ class VersionManager:
         return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
 
 
-#test.assert_equals(VersionManager().major().release(), "1.0.0", "First major release")
 
+#  test.assert_equals(VersionManager("10.11.12").major().major().release(),
+#  "12.0.0", "Second major release after '10.11.12'")
 
-#print(VersionManager().major().release())
-v1 = VersionManager()
-print(v1.major())
-#print(v1.MAJOR, v1.MINOR, v1.PATCH)
-#v1.major()
-#print(v1.MAJOR, v1.MINOR, v1.PATCH)
-print(v1.release())
+v1 = VersionManager("10.11.12").major().major().release()

@@ -1,50 +1,20 @@
-'''
-DESCRIPTION:
-In this kata we are going to mimic a software versioning system.
-
-You have to implement a VersionManager class.
-
-It should accept an optional parameter that represents the initial version.
-The input will be in one of the following formats: "{MAJOR}", "{MAJOR}.{MINOR}", or "{MAJOR}.{MINOR}.{PATCH}".
-More values may be provided after PATCH but they should be ignored.
-If these 3 parts are not decimal values, an exception with the message "Error occured while parsing version!" should be thrown.
-If the initial version is not provided or is an empty string, use "0.0.1" by default.
-
-This class should support the following methods, all of which should be chainable (except release):
-
-major() - increase MAJOR by 1, set MINOR and PATCH to 0
-minor() - increase MINOR by 1, set PATCH to 0
-patch() - increase PATCH by 1
-rollback() - return the MAJOR, MINOR, and PATCH to their values before the previous major/minor/patch call,
-or throw an exception with the message "Cannot rollback!" if there's no version to roll back to.
-Multiple calls to rollback() should be possible and restore the version history
-release() - return a string in the format "{MAJOR}.{MINOR}.{PATCH}"
-May the binary force be with you!
-'''
-
-
 class VersionManager:
     archive = []
 
     @classmethod
-    def len_version(cls, arg):
-        if len(arg) == 1:
-            arg += '.0.0'
-        elif len(arg) == 3:
-            arg += '.0'
-        elif len(arg) > 5:
-            arg = arg[:5]
-        elif arg == '':
-            arg = '0.0.1'
-        return arg
+    def correct(cls, version='0.0.1', arg2='bla bla bla'):
+        if version == '':
+            version = '0.0.1'
+        version = version.split('.') + ['0', '0']
+        version = version[:3]
+        for i in version:
+            for j in i:
+                if j not in '1234567890.':
+                    raise TypeError("Error occured while parsing version!")
+        return list(map(int, version))
 
     def __init__(self, version='0.0.1', args='First commit'):
-        version = self.len_version(version)
-        for i in version:
-            if i not in '1.2.3.4.5.6.7.8.9.0.':
-                raise TypeError("Error occured while parsing version!")
-
-        version = list(map(int, version.split('.')))
+        version = self.correct(version)
         self.MAJOR = version[0]
         self.MINOR = version[1]
         self.PATCH = version[2]
@@ -69,8 +39,9 @@ class VersionManager:
         return self
 
     def rollback(self):
-        if len(self.archive) == 0:
+        if len(self.archive) == 1:
             return 'Cannot rollback!'
+            #raise TypeError('Cannot rollback!')
         else:
             self.archive.pop()
             return self
@@ -78,4 +49,3 @@ class VersionManager:
     def release(self):
         curent_version = self.archive.pop()
         return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
-
