@@ -1,6 +1,8 @@
-a = '1.2.3'
-a = a.split('.')
-print(type(a))
-for i in a:
-    print(i)
-    print(type(i))
+from string import ascii_letters, ascii_uppercase, ascii_lowercase
+
+string = ' 12 edssds11  '
+a = ascii_letters
+print(a)
+
+b = string.rstrip(a)
+print(b)

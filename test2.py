@@ -40,7 +40,7 @@ class VersionManager:
 
     def rollback(self):
         if len(self.archive) == 0:
-            raise ValueError('Cannot rollback!')
+            raise IndexError('Cannot rollback!')
         else:
             self.archive.pop()
             return self
@@ -49,8 +49,8 @@ class VersionManager:
         curent_version = self.archive.pop()
         return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
 
-#'12' -> patch -> minor -> rollback: '0.0.1' should equal '12.0.1'
-print(VersionManager('12').patch().minor().rollback().release())
+
+VersionManager('1.2.2').release().rollback()
 #print(v1.archive)
 #v1.rollback()
 #print(v1.archive)
