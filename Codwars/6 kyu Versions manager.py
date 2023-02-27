@@ -39,9 +39,9 @@ class VersionManager:
         return self
 
     def rollback(self):
-        if len(self.archive) == 1:
-            return 'Cannot rollback!'
-            #raise TypeError('Cannot rollback!')
+        if len(self.archive) < 1:
+            #return 'Cannot rollback!'
+            raise TypeError('Cannot rollback!')
         else:
             self.archive.pop()
             return self
@@ -49,3 +49,10 @@ class VersionManager:
     def release(self):
         curent_version = self.archive.pop()
         return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
+
+v1 = VersionManager('1.2.3')
+print(v1.archive)
+v1.patch()
+print(v1.archive)
+v1.minor()
+print(v1.archive)
