@@ -48,7 +48,7 @@ class VersionManager:
 
     def release(self):
         curent_version = self.archive.pop()
-        return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
+        return (f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}')
 
 v1 = VersionManager('1.2.3')
 print(v1.archive)

@@ -1,58 +1,40 @@
 
+import heapq
 
-class VersionManager:
-    archive = []
+class Student:
+    def __init__(self, name, fives, tens, twenties):
+        self.name = name
+        self.fives = fives
+        self.tens = tens
+        self.twenties = twenties
 
-    @classmethod
-    def correct(cls, version='0.0.1', arg2='bla bla bla'):
-        if version == '':
-            version = '0.0.1'
-        version = version.split('.') + ['0', '0']
-        version = version[:3]
-        for i in version:
-            if i not in '1234567890.':
-                raise TypeError("Error occured while parsing version!")
-        return list(map(int, version))
+    def all_money(self):
+        return self.fives + self.tens + self.twenties
 
-    def __init__(self, version='0.0.1', args='First commit'):
-        version = self.correct(version)
-        self.MAJOR = version[0]
-        self.MINOR = version[1]
-        self.PATCH = version[2]
-        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
-
-    def major(self):
-        self.MAJOR += 1
-        self.MINOR = 0
-        self.PATCH = 0
-        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
-        return self
-
-    def minor(self):
-        self.MINOR += 1
-        self.PATCH = 0
-        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
-        return self
-
-    def patch(self):
-        self.PATCH += 1
-        self.archive.append([self.MAJOR, self.MINOR, self.PATCH])
-        return self
-
-    def rollback(self):
-        if len(self.archive) == 0:
-            return 'Cannot rollback!'
-        else:
-            self.archive.pop()
-            return self
-
-    def release(self):
-        curent_version = self.archive.pop()
-        return f'{curent_version[0]}.{curent_version[1]}.{curent_version[2]}'
+phil = Student("Phil", 2, 2, 1)
+cam = Student("Cameron", 2, 2, 1)
+geoff = Student("Geoff", 0, 3, 0)
 
 
+def most_money(students):
+    money = dict()
+    for i in students:
+        all_money = i.fives * 5 + i.tens * 10 + i.twenties * 20
+        money[i.name] = all_money
+    max_value = max(money.values())
+    finish = [key for key, value in money.items() if value == max_value]
+    if len(finish) > 1:
+        return 'all'
+    else:
+        return ', '.join(finish)
+print(most_money([cam, phil]))
 
-#  test.assert_equals(VersionManager("10.11.12").major().major().release(),
-#  "12.0.0", "Second major release after '10.11.12'")
 
-v1 = VersionManager("10.11.12").major().major().release()
+'''
+def most_money(students):
+    money = dict()
+    for i in students:
+        all_money = i.fives * 5 + i.tens * 10 + i.twenties * 20
+        money[i.name] = all_money
+    print(money)
+'''
