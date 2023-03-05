@@ -1,46 +1,24 @@
+class MoneyBox:
+    def __init__(self, capacity):
+        self.balance = 0
+        self.capacity = capacity
 
-a = dict()
+    def can_add(self, v):
+        return self.balance + v <= self.capacity
+        # True, если можно добавить v монет, False иначе
 
-
-
-class Student:
-    def __init__(self, name, fives, tens, twenties):
-        self.name = name
-        self.fives = fives
-        self.tens = tens
-        self.twenties = twenties
-
-    def all_money(self):
-        return self.fives + self.tens + self.twenties
-
-phil = Student("Phil", 2, 2, 1)
-cam = Student("Cameron", 2, 2, 0)
-geoff = Student("Geoff", 0, 3, 0)
-
-def most_money(students):
-    finish = dict()
-    money = dict()
-    for i in students:
-        all_money = i.fives * 5 + i.tens * 10 + i.twenties * 20
-        money[i.name] = all_money
-    money = sorted(money.values(), reverse=True)
-
-    x = 0
-    y = 1
-    while money[x] == money[y]:
-        finish[]
+    def add(self, v):
+        if self.can_add(v):
+            self.balance = self.balance + v
+            return self.balance
+        # положить v монет в копилку
 
 
+box = MoneyBox(50)
+#print(box.capacity)
+#print(box.can_add(60))
 
-    print(money)
-    #for i in money.values():
-     #   if i > 0:
-      #      a = i
+box.add(20)
+print(box.capacity)
 
-    #return print(sorted(money.values()))
-
-print(most_money([phil, cam, geoff]))
-
-
-
-
+print(box.can_add(30))
